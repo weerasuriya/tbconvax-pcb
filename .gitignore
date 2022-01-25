@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+tbconvax.Rproj
+output
+.vscode
+**/raw_data/
+/n_simul_tot_step1
+/output_mcmc
+data/**/Adj_*
