@@ -6,20 +6,20 @@ using Test, tbconvax, CSV, Tables
 end;
 
 @testset verbose = true "main-zero" begin
-    om = main(fixed_input = fi, variable_input = zeros(Float64,25))
+    om = main(fixed_input = fi, variable_input = zeros(Float64, 25))
     @test all(om[2] .== 0.0)
     @test all(om[1][5, :, :] .== 0.0)
     @test all(om[1] .>= 0.0)
 end;
 
 @testset verbose = true "main-vi-max" begin
-    om = main(fixed_input = fi, variable_input = pst(ones(Float64,25)))
+    om = main(fixed_input = fi, variable_input = pst(ones(Float64, 25)))
     @test all(om[1] .>= 0.0)
     @test all(om[2] .>= 0.0)
 end;
 
 @testset verbose = true "main-vi-min" begin
-    om = main(fixed_input = fi, variable_input = pst(zeros(Float64,25)))
+    om = main(fixed_input = fi, variable_input = pst(zeros(Float64, 25)))
     @test all(om[1] .>= 0.0)
     @test all(om[2] .>= 0.0)
 end;
@@ -104,9 +104,9 @@ end;
         vxt = vx_tog,
         vx = vxc,
         fixed_input = fi,
-        variable_input = zeros(Float64,25),
+        variable_input = zeros(Float64, 25),
     )
-    bl_output = main(fixed_input = fi, variable_input = zeros(Float64,25))
+    bl_output = main(fixed_input = fi, variable_input = zeros(Float64, 25))
     @test all(vx_output[2] .== 0.0)
     @test all(vx_output[1][5, :, :] .== 0.0)
     @test all(vx_output[1] .>= 0.0)
@@ -135,8 +135,8 @@ end;
         vxt = vx_tog,
         vx = vxc,
         fixed_input = fi,
-        variable_input = zeros(Float64,25),
+        variable_input = zeros(Float64, 25),
     )
-    bl_output = main(fixed_input = fi, variable_input = zeros(Float64,25))
+    bl_output = main(fixed_input = fi, variable_input = zeros(Float64, 25))
     @test isapprox(sum(vx_output[1], dims = 1), sum(bl_output[1], dims = 1))
 end;

@@ -179,16 +179,11 @@ Main iterator, using 3 age class matrix method
     # Set up container for contact matrices
     cmc = Array{Float64}(undef, 3, 3, 400)
     cmc[:, :, 400] .= 0.0
+
     # Main iterator
     @inbounds for i = 2:400
 
-        # M0-SF fixed contact matrix
-        cm = [
-            7.63717251606525 6.2944241384838 0.565957647241523
-            1.480300832048 11.4901621621622 1.02108069401742
-            0.521315766320647 3.99929106156634 1.99090909090909
-        ]
-
+        cm = pwc(state[:, :, i-1])
         cmc[:, :, i-1] = cm
         # Age-wise infection prevalence
         inf_prev = (I[:, i-1] + vI[:, i-1]) ./ vec(sum(state[:, :, i-1], dims = 1))

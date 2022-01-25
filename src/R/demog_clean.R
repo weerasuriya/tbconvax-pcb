@@ -158,9 +158,8 @@ manual_sim <- rbind(prelimsim, sim)[, Index := 1:402]
 manual_demog <- merge(merge(manual_demog, manual_births, by = c("Index", "Year")), manual_sim, by = c("Index", "Year"))
 
 # Annual total pop
-fwrite(manual_demog[Index %in% seq(1, 400, 2), .(Year, `sim_[0,15)`,`sim_[15,65)`, `sim_[65,99]`, `sim_[0,99]`)], file = "data/proc_data/3ac_sim_total.csv")
+fwrite(manual_demog[Index %in% seq(1, 400, 2), .(Year, `sim_[0,15)`, `sim_[15,65)`, `sim_[65,99]`, `sim_[0,99]`)], file = "data/proc_data/3ac_sim_total.csv")
 
 # Write out
 fwrite(final, file = "data/proc_data/3ac_demog.csv")
 fwrite(manual_demog, file = "data/proc_data/3ac_manual.csv")
-

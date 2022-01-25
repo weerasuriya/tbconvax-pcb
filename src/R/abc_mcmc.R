@@ -13,7 +13,6 @@ suppressPackageStartupMessages({
   library(qs)
   library(ragg)
   library(ggplot2)
-  library(gridExtra)
 })
 
 # Set working directory
@@ -54,15 +53,13 @@ btc <- function(x) julia$call("btc", x)
 pobgen <- function(x) julia$call("pobgen", x)
 main <- function(x) julia$call("main", variable_input = pst(x), fixed_input = init_object)
 
-n_targ <- 9
-
 mw <- function(x) {
   tryCatch(
     {
       julia$call("wam", x)
     },
     error = function(e) {
-      return(rep(1e5, n_targ))
+      return(rep(1e5, 8))
     }
   )
 }
@@ -91,6 +88,8 @@ if (seed) {
 metadata$start_time <- format(Sys.time(), "%Y-%m-%d-%H%M")
 metadata$JN <- glue("{metadata$start_time}_{CMA}")
 cat(sprintf("start: %s", metadata$start_time, "\n"))
+
+n_targ <- 8
 
 abc_op <- ABC_mcmc(
   method = "Marjoram_original",
@@ -129,7 +128,7 @@ if (ANALYSE) {
     ggsave(
       filename = path("output", CMA, "params", "figs", metadata$JN, "trace", ext = "png"),
       plot = trace_plot,
-      device = ragg::agg_png, units = "in", width = 50, height = 25, limitsize = F
+      device = ragg::agg_png, units = "in", width = 50, height = 50, limitsize = F
     )
     ggsave(
       filename = path("output", CMA, "params", "figs", metadata$JN, "dens", ext = "png"),
@@ -148,26 +147,21 @@ try({
 
 # Write out ---------------------------------------------------------------
 
-post_dt <- as.data.table(post)
-psid <- apply(post_dt, MARGIN = 1, FUN = digest::digest)
-post_dt[, PSID := psid]
-
-opp <- dir_create(here("output", CMA, "params", "sets"))
-
-path_jn_raw <- path(opp, paste(metadata$JN, "raw", sep = "_"), ext = "csv")
-path_jn_raw_gz <- path(opp, paste(metadata$JN, "raw", sep = "_"), ext = "csv.gz")
-path_jn <- path(opp, metadata$JN, ext = "csv")
-u_post_dt <- unique(post_dt)
-set.seed(123)
-subsample <- u_post_dt[sample(1:nrow(u_post_dt), size = 1000), ]
-
 WRITE <- TRUE
 
 if (WRITE) {
-  fwrite(x = post_dt, file = path_jn_raw)
-  fwrite(x = post_dt, file = path_jn_raw_gz)
-  fwrite(x = subsample, file = path_jn)
-  metadata$paramset_hash <- digest::digest(path_jn_raw, file = TRUE)
+  post_dt <- as.data.table(post)
+  post_dt <- unique(post_dt)
+  psid <- apply(post_dt, MARGIN = 1, FUN = digest::digest)
+  post_dt[, PSID := psid]
+
+  opp <- dir_create(here("output", CMA, "params", "sets"))
+
+  path_jn <- path(opp, metadata$JN, ext = "csv")
+  path_jn_gz <- path(opp, metadata$JN, ext = "csv.gz")
+  fwrite(x = unique(post_dt), file = path_jn)
+  fwrite(x = unique(post_dt), file = path_jn_gz)
+  metadata$paramset_hash <- digest::digest(path_jn, file = TRUE)
 
   param_latest_path <- here("output", CMA, "metadata", paste0(metadata$JN, ".yml"))
   param_unique_path <- here("output", CMA, "metadata", "latest.yml")
@@ -176,7 +170,7 @@ if (WRITE) {
   write_yaml(x = metadata, file = param_unique_path)
 
   git2r::add(path = c(
-    path_jn,
+    path_jn_gz,
     param_latest_path,
     param_unique_path
   ), repo = "../tbconvax-output")

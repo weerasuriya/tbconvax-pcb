@@ -18,4 +18,6 @@ PSID = hm_fp[PS, end]
 bl_output = standard(main(fixed_input = fi, variable_input = params))
 ufi = merge(fi, (; demog_mort = bl_output[3]))
 
-vx_output = standard(main_sim(vxt = true, vx = vx_profile, fixed_input = ufi, variable_input = params))
+vx_output = standard(
+    main_sim(vxt = true, vx = vx_profile, fixed_input = ufi, variable_input = params),
+)
