@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.0.2",
+    "Version": "3.6.3",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -15,8 +15,8 @@
       "Source": "Local",
       "Repository": "CRAN",
       "RemoteType": "local",
-      "RemoteUrl": "/home/chathika/Documents/PhD/tbconvax-m2-sf/renv/local/EasyABC/EasyABC_1.5.1.tar.gz",
-      "Hash": "d30373cbe8b5281f7214982a43d6d729"
+      "RemoteUrl": "/home/chathika/Documents/PhD/tbconvax-m3-sf/renv/local/EasyABC/EasyABC_1.5.1.tar.gz",
+      "Hash": "eba54c15abf623447f07863e99ed214a"
     },
     "JuliaCall": {
       "Package": "JuliaCall",
@@ -125,24 +125,24 @@
     },
     "bayesplot": {
       "Package": "bayesplot",
-      "Version": "1.8.0",
+      "Version": "1.8.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "19f9ba83990d6c96441fcb0a10382d54"
+      "Hash": "0a8b771b1b255fc55f271ae49e671afc"
     },
     "cli": {
       "Package": "cli",
-      "Version": "2.5.0",
+      "Version": "3.0.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "a94ba44cee3ea571e813721e64184172"
+      "Hash": "096829b701eec2d2b4538be63de97e75"
     },
     "colorspace": {
       "Package": "colorspace",
-      "Version": "2.0-1",
+      "Version": "2.0-2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "6cab523af06ac301e7a40c5529d45882"
+      "Hash": "6baccb763ee83c0bd313460fdb8b8a84"
     },
     "conquer": {
       "Package": "conquer",
@@ -158,13 +158,6 @@
       "Repository": "CRAN",
       "Hash": "c46036853ef73486af84ec5dc5b2443f"
     },
-    "cpp11": {
-      "Package": "cpp11",
-      "Version": "0.2.7",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "730eebcc741a5c36761f7d4d0f5e37b8"
-    },
     "crayon": {
       "Package": "crayon",
       "Version": "1.4.1",
@@ -174,10 +167,10 @@
     },
     "curl": {
       "Package": "curl",
-      "Version": "4.3.1",
+      "Version": "4.3.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "c5e68405893f030f139f6d6675eac675"
+      "Hash": "022c42d49c28e95d69ca60446dbabf88"
     },
     "data.table": {
       "Package": "data.table",
@@ -195,10 +188,10 @@
     },
     "dplyr": {
       "Package": "dplyr",
-      "Version": "1.0.6",
+      "Version": "1.0.7",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "19e84500b64bc7e589cb1e2550e25832"
+      "Hash": "36f1ae62f026c8ba9f9b5c9a08c03297"
     },
     "ellipsis": {
       "Package": "ellipsis",
@@ -244,10 +237,10 @@
     },
     "ggplot2": {
       "Package": "ggplot2",
-      "Version": "3.3.3",
+      "Version": "3.3.5",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "3eb6477d01eb5bbdc03f7d5f70f2733e"
+      "Hash": "d7566c471c7b17e095dd023b9ef155ad"
     },
     "ggridges": {
       "Package": "ggridges",
@@ -391,10 +384,10 @@
     },
     "mime": {
       "Package": "mime",
-      "Version": "0.10",
+      "Version": "0.11",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "26fa77e707223e1ce042b2b5d09993dc"
+      "Hash": "8974a907200fc9948d636fe7d85ca9fb"
     },
     "mnormt": {
       "Package": "mnormt",
@@ -487,13 +480,6 @@
       "Repository": "CRAN",
       "Hash": "28692dfa3efea8e19d29347d05f5a489"
     },
-    "ragg": {
-      "Package": "ragg",
-      "Version": "1.1.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "3f0ac98597bebdc31b747def3eb9b6ca"
-    },
     "renv": {
       "Package": "renv",
       "Version": "0.13.2",
@@ -564,26 +550,12 @@
       "Repository": "CRAN",
       "Hash": "b227d13e29222b4574486cfcbde077fa"
     },
-    "systemfonts": {
-      "Package": "systemfonts",
-      "Version": "1.0.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "f2e17ba09737e2e7e2ec40fc1f9b6e08"
-    },
     "tensorA": {
       "Package": "tensorA",
       "Version": "0.36.2",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "fd792ceac77f96b647fa8d6e1788969a"
-    },
-    "textshaping": {
-      "Package": "textshaping",
-      "Version": "0.3.4",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "b47ec0c0b55d1cf4d5b8f2da3fe2024e"
     },
     "tibble": {
       "Package": "tibble",
@@ -643,10 +615,10 @@
     },
     "xfun": {
       "Package": "xfun",
-      "Version": "0.23",
+      "Version": "0.24",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "791a57f43c887111490851dcd166d344"
+      "Hash": "88cdb9779a657ad80ad942245fffba31"
     },
     "xml2": {
       "Package": "xml2",

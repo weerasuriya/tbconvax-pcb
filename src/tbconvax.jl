@@ -98,10 +98,10 @@ end
 
 """
 Scale assortativity matrix
-Argument: 1xn row vector of age-proportions
+Argument: 1xn row vector of age-proportions + nxn
 Value: n x n daily contact matrix
 """
-@inline function scm(afrac)
+@inline function scm(afrac, pop)
 
     asm = [
         48.4 9.4 3.3
@@ -109,7 +109,12 @@ Value: n x n daily contact matrix
         3.3 6.0 11.6
     ]
 
-    return asm .* afrac
+    pt = sum(pop, dims = 1)
+
+    m2 = asm .* afrac
+    av_c = sum(m2 .* vec(pt)) / sum(pop)
+
+    return m2 ./ av_c
 end
 
 """
@@ -189,7 +194,7 @@ Main iterator, using 3 age class matrix method
         # Population age fraction
         paf = afrac(state[:, :, i-1])
         # Scale assortativity matrix to current population
-        cm = scm(paf)
+        cm = scm(paf, state[:, :, i-1])
         cmc[:, :, i-1] = cm
         # Age-wise infection prevalence
         inf_prev = I[:, i-1] ./ vec(sum(state[:, :, i-1], dims = 1))

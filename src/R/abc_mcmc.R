@@ -97,7 +97,7 @@ abc_op <- ABC_mcmc(
   model = mw,
   prior = pr,
   summary_stat_target = rep(0, n_targ),
-  n_rec = 100000,
+  n_rec = 300000,
   dist_max = n_targ,
   progress_bar = TRUE,
   tab_normalization = rep(1, n_targ),

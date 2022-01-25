@@ -114,6 +114,7 @@ Scalar objective function with bounds penalty
 """
 @inline sobgen(ov) = sum(pobgen(ov))
 
+
 """
 Scalar objective function with maximum value output
 """
@@ -170,7 +171,7 @@ Parameter set transformer: transform uniform input into constrained model params
     ov[6] = 0.1 + (ov[5] - 0.1) * pv[6]
 
     # [7] tr
-    ov[7] = 1 + pv[7] * 3
+    ov[7] = pv[7] * 10
 
     # [8] w
     ov[8] = 0.007 + (pv[8] * 0.013)
