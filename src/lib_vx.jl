@@ -183,7 +183,11 @@ Main iterator, using 3 age class matrix method
     # Main iterator
     @inbounds for i = 2:400
 
-        cm = pwc(state[:, :, i-1])
+        # Transmission
+        # Population age fraction
+        paf = afrac(state[:, :, i-1])
+        # Scale assortativity matrix to current population
+        cm = scm(paf)
         cmc[:, :, i-1] = cm
         # Age-wise infection prevalence
         inf_prev = (I[:, i-1] + vI[:, i-1]) ./ vec(sum(state[:, :, i-1], dims = 1))

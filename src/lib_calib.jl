@@ -4,7 +4,7 @@ export target_extract, target_opt, sobgen, pobgen, vobgen, mobgen, wam, pst, btc
 #=
 Get latest 2050 targets
 =#
-inc2050hm = YAML.load_file("output/HM/targets/inc2050/latest.yml")
+inc2050hm = YAML.load_file("output/M1-SF/targets/inc2050/latest.yml")
 const i2050_hi = inc2050hm["i2050_hi"]
 const i2050_lo = inc2050hm["i2050_lo"]
 const i2050_med = inc2050hm["i2050_med"]
@@ -53,6 +53,7 @@ Target extractor: extract targets from output arrays
         incidence_014_2019,
         incidence_1599_2019,
         incidence_65p_2019,
+        incidence_all_2050,
         notif_all_2019,
     ]
 
@@ -71,21 +72,27 @@ end
 """
 Base vector objective function
 """
-@inline function vobgen(ov)
-    hov = similar(ov)
-    hov[1] = target_opt(ov[1], 253.0, 195.0, 312.0)
-    # hov[2] = target_opt(ov[2], 67.0, 57.0, 79.0)
-    hov[2] = target_opt(ov[2], 33.0, 30.0, 35.0)
-    hov[3] = target_opt(ov[3], 247.0, 128.0, 405.0)
-    hov[4] = target_opt(ov[4], 193.0, 132.0, 266.0)
-    hov[5] = target_opt(ov[5], 90.1, 54.9, 125.6)
-    hov[6] = target_opt(ov[6], 230.2, 140.1, 321.3)
-    hov[7] = target_opt(ov[7], 276.7, 0.0, 622.3)
-    hov[8] = target_opt(ov[8], 190.0, 152.0, 228.0)
-    return hov
+macro vobgen_mac()
+    op = quote
+        @inline function vobgen(ov)
+            hov = similar(ov)
+            hov[1] = target_opt(ov[1], 253.0, 195.0, 312.0)
+            # hov[2] = target_opt(ov[2], 67.0, 57.0, 79.0)
+            hov[2] = target_opt(ov[2], 33.0, 30.0, 35.0)
+            hov[3] = target_opt(ov[3], 247.0, 128.0, 405.0)
+            hov[4] = target_opt(ov[4], 193.0, 132.0, 266.0)
+            hov[5] = target_opt(ov[5], 90.1, 54.9, 125.6)
+            hov[6] = target_opt(ov[6], 230.2, 140.1, 321.3)
+            hov[7] = target_opt(ov[7], 276.7, 0.0, 622.3)
+            hov[8] = target_opt(ov[8], $i2050_med, $i2050_lo, $i2050_hi)
+            hov[9] = target_opt(ov[9], 190.0, 152.0, 228.0)
+            return hov
+        end
+    end
+    return (op)
 end
 
-# vobgen = @vobgen_mac()
+vobgen = @vobgen_mac()
 
 """
 Vector objective function with out of bounds penalty
@@ -93,7 +100,7 @@ Vector objective function with out of bounds penalty
 @inline function bounds_penalty!(hov)
     @inbounds @simd for i in eachindex(hov)
         if hov[i] > 1.0
-            hov[i] *= 8
+            hov[i] *= 9
         end
     end
     return hov
@@ -115,20 +122,25 @@ Scalar objective function with maximum value output
 """
 Dichotomous target check function
 """
-@inline function btc(ov)
-    opbv = BitVector(undef, 9)
-    opbv[1] = ov[1] >= 195.0 && ov[1] <= 312.0
-    opbv[2] = ov[2] >= 30.0 && ov[2] <= 35.0
-    opbv[3] = ov[3] >= 149.0 && ov[3] <= 473.0
-    opbv[4] = ov[4] >= 132.0 && ov[4] <= 266.0
-    opbv[5] = ov[5] >= 54.9 && ov[5] <= 125.6
-    opbv[6] = ov[6] >= 140.1 && ov[6] <= 321.3
-    opbv[7] = ov[7] >= 0.0 && ov[7] <= 622.3
-    opbv[8] = ov[8] >= 152.0 && ov[9] <= 228.0
-    return opbv
+macro btc_mac()
+    quote
+        @inline function btc(ov)
+            opbv = BitVector(undef, 9)
+            opbv[1] = ov[1] >= 195.0 && ov[1] <= 312.0
+            opbv[2] = ov[2] >= 30.0 && ov[2] <= 35.0
+            opbv[3] = ov[3] >= 149.0 && ov[3] <= 473.0
+            opbv[4] = ov[4] >= 132.0 && ov[4] <= 266.0
+            opbv[5] = ov[5] >= 54.9 && ov[5] <= 125.6
+            opbv[6] = ov[6] >= 140.1 && ov[6] <= 321.3
+            opbv[7] = ov[7] >= 0.0 && ov[7] <= 622.3
+            opbv[8] = ov[8] >= $i2050_lo && ov[8] <= $i2050_hi
+            opbv[9] = ov[9] >= 152.0 && ov[9] <= 228.0
+            return opbv
+        end
+    end
 end
 
-# btc = @btc_mac()
+btc = @btc_mac()
 
 """
 Wrapped for ABC-MCMC
